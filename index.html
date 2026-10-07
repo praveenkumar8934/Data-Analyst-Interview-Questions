@@ -1,0 +1,1002 @@
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Data Analyst Interview Bible (2025 Master Edition)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+
+        /* Reading view modes */
+        .font-mode-sans { font-family: 'Inter', sans-serif; }
+        .font-mode-serif { font-family: 'Merriweather', serif; }
+        
+        /* Highlighting syntax simulation */
+        .code-keyword { color: #f43f5e; font-weight: 600; }
+        .code-func { color: #3b82f6; font-weight: 600; }
+        .code-string { color: #10b981; }
+        .code-comment { color: #64748b; font-style: italic; }
+        .code-num { color: #f59e0b; }
+
+        /* Print styles for offline eBook PDF creation */
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; color: black !important; }
+            .page-break { page-break-after: always; }
+            .book-canvas { max-width: 100% !important; margin: 0 !important; box-shadow: none !important; }
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-300 select-none">
+
+    <!-- TOP TOOLBAR / NAVIGATION -->
+    <header class="no-print h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sticky top-0 z-40 shadow-sm">
+        <!-- Left: Logo & Title -->
+        <div class="flex items-center space-x-3">
+            <button id="toggle-sidebar-btn" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+            <div class="flex items-center space-x-2">
+                <span class="bg-gradient-to-r from-brand-600 to-accent-600 text-white p-2 rounded-lg text-xs font-bold shadow-md">
+                    <i class="fa-solid fa-book-open"></i> PRO
+                </span>
+                <div>
+                    <h1 class="text-sm md:text-base font-bold leading-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+                        Data Analyst Interview Bible
+                    </h1>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400">2025 Edition • 100+ Interactive Pages • FAANG & Tech Standards</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center: Search Bar -->
+        <div class="hidden md:flex items-center relative w-1/3 max-w-md">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 text-slate-400 text-sm"></i>
+            <input type="text" id="search-input" placeholder="Search 100+ topics, SQL, Pandas, A/B Testing..." 
+                class="w-full pl-9 pr-8 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+            <span class="absolute right-3 text-[10px] bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded font-mono">⌘K</span>
+        </div>
+
+        <!-- Right: eBook Controls & Settings -->
+        <div class="flex items-center space-x-2">
+            <!-- Reader Mode Toggle (Flashcard/Quiz vs Book View) -->
+            <button id="toggle-quiz-btn" title="Toggle Flashcard Self-Test Mode" class="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center space-x-1.5 transition">
+                <i class="fa-solid fa-graduation-cap text-brand-500"></i>
+                <span class="hidden sm:inline">Quiz Mode</span>
+            </button>
+
+            <!-- Bookmarks Quick View -->
+            <button id="toggle-bookmarks-btn" title="Saved Bookmarks" class="p-2 text-xs rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 relative">
+                <i class="fa-solid fa-bookmark"></i>
+                <span id="bookmark-badge" class="hidden absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+            </button>
+
+            <!-- Text Formatting Dropdown -->
+            <div class="relative group">
+                <button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    <i class="fa-solid fa-font"></i>
+                </button>
+                <div class="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 p-3 hidden group-hover:block z-50">
+                    <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Typography</p>
+                    <div class="flex space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg mb-3">
+                        <button id="font-sans-btn" class="flex-1 py-1 text-xs rounded font-sans bg-white dark:bg-slate-700 shadow-sm font-semibold">Sans</button>
+                        <button id="font-serif-btn" class="flex-1 py-1 text-xs rounded font-serif">Serif</button>
+                    </div>
+                    <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Font Size</p>
+                    <div class="flex items-center justify-between text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-lg">
+                        <button id="decrease-font-btn" class="p-1 hover:text-brand-500"><i class="fa-solid fa-minus"></i></button>
+                        <span id="font-size-label" class="font-mono">100%</span>
+                        <button id="increase-font-btn" class="p-1 hover:text-brand-500"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark / Light Mode Toggle -->
+            <button id="toggle-theme-btn" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:inline text-amber-400"></i>
+            </button>
+
+            <!-- Export / Print -->
+            <button onclick="window.print()" class="hidden lg:flex items-center space-x-1 text-xs bg-slate-900 hover:bg-slate-800 dark:bg-brand-600 dark:hover:bg-brand-500 text-white font-medium px-3 py-1.5 rounded-lg shadow-sm transition">
+                <i class="fa-solid fa-file-pdf"></i>
+                <span>PDF Export</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN READING CONTAINER WITH SIDEBAR -->
+    <div class="flex-1 flex overflow-hidden relative">
+
+        <!-- SIDEBAR / TABLE OF CONTENTS -->
+        <aside id="sidebar" class="no-print w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col transition-all duration-300 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-lg md:shadow-none">
+            
+            <!-- Sidebar Header & Metadata -->
+            <div class="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Table of Contents</span>
+                    <span id="completion-stats" class="text-[11px] font-mono bg-brand-50 dark:bg-brand-950/80 text-brand-600 dark:text-brand-300 px-2 py-0.5 rounded-full border border-brand-200 dark:border-brand-800">0% Read</span>
+                </div>
+                <div class="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                    <div id="reading-progress-bar" class="bg-gradient-to-r from-brand-500 to-accent-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- Module Filter Tabs -->
+            <div class="flex overflow-x-auto border-b border-slate-200 dark:border-slate-800 text-xs font-medium p-1 bg-slate-100 dark:bg-slate-950 no-scrollbar">
+                <button data-filter="all" class="toc-filter-btn px-3 py-1.5 rounded-md bg-white dark:bg-slate-800 text-brand-600 dark:text-brand-400 shadow-sm whitespace-nowrap">All Modules</button>
+                <button data-filter="sql" class="toc-filter-btn px-3 py-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 whitespace-nowrap">SQL</button>
+                <button data-filter="python" class="toc-filter-btn px-3 py-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 whitespace-nowrap">Python</button>
+                <button data-filter="stats" class="toc-filter-btn px-3 py-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 whitespace-nowrap">Stats & A/B</button>
+                <button data-filter="biz" class="toc-filter-btn px-3 py-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 whitespace-nowrap">Product/Metrics</button>
+            </div>
+
+            <!-- Dynamic TOC Item List -->
+            <div id="toc-list" class="flex-1 overflow-y-auto p-3 space-y-1">
+                <!-- Javascript will inject TOC items dynamically -->
+            </div>
+
+            <!-- eBook Commercial Info Footer -->
+            <div class="p-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 text-center text-[11px] text-slate-500">
+                <p>Licensed to: <span class="font-semibold text-slate-700 dark:text-slate-300">Candidate PRO</span></p>
+                <p class="text-[10px] opacity-75">Includes 120 Questions • 100 Page Print Capacity</p>
+            </div>
+        </aside>
+
+        <!-- BOOK READER CANVAS / CONTENT AREA -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-100 dark:bg-slate-950 relative">
+            
+            <!-- Floating Navigation Controls for Pages -->
+            <div class="no-print absolute top-4 right-6 z-20 flex items-center space-x-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur border border-slate-200 dark:border-slate-800 rounded-full shadow-lg p-1">
+                <button id="prev-page-btn" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-600 dark:text-slate-300 disabled:opacity-30">
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                </button>
+                <span class="text-xs font-mono px-2 font-semibold text-slate-700 dark:text-slate-300">
+                    Page <span id="current-page-num">1</span> / <span id="total-pages-num">100</span>
+                </span>
+                <button id="next-page-btn" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-600 dark:text-slate-300">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </button>
+            </div>
+
+            <!-- PAGE DISPLAY SCROLL AREA -->
+            <div id="reader-scroll-container" class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 flex justify-center">
+                
+                <!-- THE DIGITAL BOOK PAGE -->
+                <article id="book-page" class="book-canvas w-full max-w-4xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 rounded-2xl shadow-2xl border border-slate-200/80 dark:border-slate-800/80 p-6 md:p-12 transition-all duration-200 min-h-[85vh] flex flex-col justify-between relative font-mode-sans">
+                    
+                    <!-- Top Page Header Meta -->
+                    <div>
+                        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
+                            <div class="flex items-center space-x-2">
+                                <span id="page-module-badge" class="px-2.5 py-1 bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400 font-semibold text-[11px] rounded-md tracking-wide uppercase border border-brand-200 dark:border-brand-800">
+                                    Module 1: Advanced SQL
+                                </span>
+                                <span id="page-difficulty-badge" class="px-2 py-0.5 bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 text-[10px] font-medium rounded">
+                                    Hard
+                                </span>
+                                <span id="page-faang-tag" class="hidden sm:inline-block px-2 py-0.5 bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-300 text-[10px] font-medium rounded">
+                                    <i class="fa-solid fa-fire text-amber-500 mr-1"></i>FAANG Favorite
+                                </span>
+                            </div>
+                            <button id="bookmark-current-page" class="text-slate-400 hover:text-amber-500 transition text-lg">
+                                <i class="fa-regular fa-bookmark"></i>
+                            </button>
+                        </div>
+
+                        <!-- Dynamic Question Header -->
+                        <div id="question-header-container">
+                            <h2 id="page-title" class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-3 leading-snug">
+                                Q1: Finding the Top 3 Consecutive Logins (Gaps & Islands Problem)
+                            </h2>
+                            <p id="page-subtitle" class="text-sm text-slate-500 dark:text-slate-400 italic mb-6">
+                                Standard SQL pattern tested in Meta, Amazon, and Stripe technical rounds.
+                            </p>
+                        </div>
+
+                        <!-- Dynamic Content Body -->
+                        <div id="page-content-body" class="space-y-6 text-base leading-relaxed text-slate-700 dark:text-slate-300">
+                            <!-- Injected dynamically via JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom Page Footer (Book-style page numbering) -->
+                    <div class="mt-12 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span>The Data Analyst Interview Bible • Confidential</span>
+                        <div class="flex items-center space-x-2">
+                            <span>Page</span>
+                            <span id="footer-page-num" class="font-bold text-slate-700 dark:text-slate-300 font-mono">1</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Page Navigation Slider Bar at Bottom -->
+            <div class="no-print bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-2 px-6 flex items-center justify-between text-xs">
+                <button id="quick-prev-btn" class="text-slate-500 hover:text-brand-500 font-medium flex items-center space-x-1">
+                    <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">Previous Question</span>
+                </button>
+                
+                <div class="flex items-center space-x-3 w-1/2 max-w-md">
+                    <span class="text-[10px] font-mono text-slate-400">Pg 1</span>
+                    <input type="range" id="page-range-slider" min="1" max="100" value="1" class="w-full accent-brand-600 h-1 bg-slate-200 dark:bg-slate-700 rounded-lg cursor-pointer">
+                    <span class="text-[10px] font-mono text-slate-400">Pg 100</span>
+                </div>
+
+                <button id="quick-next-btn" class="text-brand-600 dark:text-brand-400 font-medium flex items-center space-x-1 hover:underline">
+                    <span class="hidden sm:inline">Next Question</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </main>
+
+        <!-- BOOKMARKS SLIDE-OVER MODAL -->
+        <div id="bookmarks-modal" class="no-print hidden absolute right-0 top-0 h-full w-80 bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-200 dark:border-slate-800 z-50 flex flex-col">
+            <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <h3 class="font-bold text-sm flex items-center space-x-2">
+                    <i class="fa-solid fa-bookmark text-amber-500"></i>
+                    <span>Saved Bookmarks</span>
+                </h3>
+                <button id="close-bookmarks-btn" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div id="bookmarks-list" class="flex-1 overflow-y-auto p-4 space-y-2">
+                <!-- Bookmarked items listed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="no-print fixed bottom-16 right-6 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-2xl text-xs font-medium transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center space-x-2">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 dark:text-emerald-600"></i>
+        <span id="toast-message">Snippet copied to clipboard!</span>
+    </div>
+
+    <!-- EBOOK INTERACTIVE ENGINE SCRIPT -->
+    <script>
+        // MASTER EBOOK QUESTION CONTENT DATABASE (Generates 100 dynamic pages with full answer keys, SQL tables, charts, & Python code)
+        const eBookQuestions = [
+            // MODULE 1: SQL MASTERY
+            {
+                id: 1,
+                page: 1,
+                category: "sql",
+                categoryTitle: "Module 1: SQL Mastery",
+                difficulty: "Hard",
+                faang: true,
+                title: "Q1: Identifying Consecutive Active Days (Gaps & Islands)",
+                subtitle: "Determining active streak behavior in user session tables.",
+                prompt: "You are given a table `user_logins` with `user_id` and `login_date`. Write a SQL query to find all users who logged in for at least 3 consecutive days.",
+                solution: `<p class="mb-4">This is a classic <strong>Gaps and Islands</strong> problem. To solve it, we subtract a row number (partitioned by user and ordered by date) from the actual date. If the dates are consecutive, the calculated date difference remains constant!</p>
+
+                <div class="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-xs overflow-x-auto my-4 shadow-inner border border-slate-800">
+                    <div class="flex justify-between text-slate-400 text-[10px] mb-2 pb-1 border-b border-slate-800">
+                        <span>SQL Server / PostgreSQL / Snowflake</span>
+                        <button onclick="copyCode(this)" class="hover:text-white"><i class="fa-regular fa-copy"></i> Copy</button>
+                    </div>
+                    <code>
+<span class="code-keyword">WITH</span> RankedLogins <span class="code-keyword">AS</span> (
+    <span class="code-keyword">SELECT</span> 
+        user_id,
+        login_date,
+        <span class="code-func">ROW_NUMBER</span>() <span class="code-keyword">OVER</span> (<span class="code-keyword">PARTITION BY</span> user_id <span class="code-keyword">ORDER BY</span> login_date) <span class="code-keyword">AS</span> rn,
+        login_date - <span class="code-func">CAST</span>(<span class="code-func">ROW_NUMBER</span>() <span class="code-keyword">OVER</span> (<span class="code-keyword">PARTITION BY</span> user_id <span class="code-keyword">ORDER BY</span> login_date) <span class="code-keyword">AS</span> <span class="code-keyword">INT</span>) <span class="code-keyword">AS</span> group_date
+    <span class="code-keyword">FROM</span> (<span class="code-keyword">SELECT DISTINCT</span> user_id, login_date <span class="code-keyword">FROM</span> user_logins) <span class="code-keyword">AS</span> distinct_logins
+)
+<span class="code-keyword">SELECT</span> 
+    user_id,
+    <span class="code-func">MIN</span>(login_date) <span class="code-keyword">AS</span> streak_start,
+    <span class="code-func">MAX</span>(login_date) <span class="code-keyword">AS</span> streak_end,
+    <span class="code-func">COUNT</span>(*) <span class="code-keyword">AS</span> consecutive_days
+<span class="code-keyword">FROM</span> RankedLogins
+<span class="code-keyword">GROUP BY</span> user_id, group_date
+<span class="code-keyword">HAVING</span> <span class="code-func">COUNT</span>(*) >= <span class="code-num">3</span>;
+                    </code>
+                </div>
+
+                <div class="bg-blue-50 dark:bg-blue-950/50 border-l-4 border-brand-500 p-4 rounded-r-xl my-4 text-xs">
+                    <h4 class="font-bold text-brand-700 dark:text-brand-300 mb-1"><i class="fa-solid fa-lightbulb"></i> Interview Tip:</h4>
+                    <p>Always deduplicate data first using <code>DISTINCT</code> inside a CTE. Users logging in twice in one day will break standard window functions if left unhandled.</p>
+                </div>`
+            },
+            {
+                id: 2,
+                page: 2,
+                category: "sql",
+                categoryTitle: "Module 1: SQL Mastery",
+                difficulty: "Medium",
+                faang: true,
+                title: "Q2: ROW_NUMBER() vs RANK() vs DENSE_RANK()",
+                subtitle: "Understanding ties and ranking distributions in relational engines.",
+                prompt: "Explain the explicit difference between ROW_NUMBER(), RANK(), and DENSE_RANK() with concrete numeric examples.",
+                solution: `<p class="mb-4">Window ranking functions differ in how they handle tie values in the dataset:</p>
+
+                <div class="overflow-x-auto my-4">
+                    <table class="w-full text-xs text-left border-collapse border border-slate-200 dark:border-slate-800">
+                        <thead class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold">
+                            <tr>
+                                <th class="p-2 border border-slate-200 dark:border-slate-800">Score</th>
+                                <th class="p-2 border border-slate-200 dark:border-slate-800">ROW_NUMBER()</th>
+                                <th class="p-2 border border-slate-200 dark:border-slate-800">RANK()</th>
+                                <th class="p-2 border border-slate-200 dark:border-slate-800">DENSE_RANK()</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 dark:divide-slate-800 font-mono">
+                            <tr><td class="p-2 border">100</td><td class="p-2 border">1</td><td class="p-2 border">1</td><td class="p-2 border">1</td></tr>
+                            <tr class="bg-amber-500/10"><td class="p-2 border">90</td><td class="p-2 border">2</td><td class="p-2 border text-amber-500 font-bold">2</td><td class="p-2 border text-amber-500 font-bold">2</td></tr>
+                            <tr class="bg-amber-500/10"><td class="p-2 border">90</td><td class="p-2 border">3</td><td class="p-2 border text-amber-500 font-bold">2</td><td class="p-2 border text-amber-500 font-bold">2</td></tr>
+                            <tr><td class="p-2 border">80</td><td class="p-2 border">4</td><td class="p-2 border text-rose-500 font-bold">4 (Skips 3)</td><td class="p-2 border text-emerald-500 font-bold">3 (No gap)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <ul class="list-disc pl-5 space-y-2 text-xs">
+                    <li><strong>ROW_NUMBER():</strong> Assigns unique sequential integers regardless of ties.</li>
+                    <li><strong>RANK():</strong> Assigns duplicate ranks for ties, but <em>skips</em> subsequent rank numbers.</li>
+                    <li><strong>DENSE_RANK():</strong> Assigns duplicate ranks for ties, but <em>never skips</em> rank numbers.</li>
+                </ul>`
+            },
+            {
+                id: 3,
+                page: 3,
+                category: "sql",
+                categoryTitle: "Module 1: SQL Mastery",
+                difficulty: "Hard",
+                faang: true,
+                title: "Q3: Monthly Customer Retention & Cohort Analysis",
+                subtitle: "Calculating Month-over-Month (MoM) user retention rates.",
+                prompt: "Write a query calculating the percentage of users active in Month N who remain active in Month N+1.",
+                solution: `<p class="mb-4">Cohort analysis relies on joining an aggregated monthly activity CTE back to itself shifted by 1 month.</p>
+
+                <div class="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-xs overflow-x-auto my-4 shadow-inner">
+                    <code>
+<span class="code-keyword">WITH</span> MonthlyActivity <span class="code-keyword">AS</span> (
+    <span class="code-keyword">SELECT DISTINCT</span>
+        user_id,
+        <span class="code-func">DATE_TRUNC</span>(<span class="code-string">'month'</span>, event_date) <span class="code-keyword">AS</span> activity_month
+    <span class="code-keyword">FROM</span> user_events
+)
+<span class="code-keyword">SELECT</span>
+    m1.activity_month <span class="code-keyword">AS</span> cohort_month,
+    <span class="code-func">COUNT</span>(<span class="code-keyword">DISTINCT</span> m1.user_id) <span class="code-keyword">AS</span> total_active_users,
+    <span class="code-func">COUNT</span>(<span class="code-keyword">DISTINCT</span> m2.user_id) <span class="code-keyword">AS</span> retained_users,
+    <span class="code-func">ROUND</span>(<span class="code-func">COUNT</span>(<span class="code-keyword">DISTINCT</span> m2.user_id) * <span class="code-num">100.0</span> / <span class="code-func">COUNT</span>(<span class="code-keyword">DISTINCT</span> m1.user_id), <span class="code-num">2</span>) <span class="code-keyword">AS</span> retention_rate_pct
+<span class="code-keyword">FROM</span> MonthlyActivity m1
+<span class="code-keyword">LEFT JOIN</span> MonthlyActivity m2
+    <span class="code-keyword">ON</span> m1.user_id = m2.user_id
+    <span class="code-keyword">AND</span> m2.activity_month = m1.activity_month + <span class="code-keyword">INTERVAL</span> <span class="code-string">'1 month'</span>
+<span class="code-keyword">GROUP BY</span> <span class="code-num">1</span>
+<span class="code-keyword">ORDER BY</span> <span class="code-num">1</span>;
+                    </code>
+                </div>`
+            },
+
+            // MODULE 2: PYTHON & PANDAS
+            {
+                id: 4,
+                page: 21,
+                category: "python",
+                categoryTitle: "Module 2: Python & Pandas Wrangling",
+                difficulty: "Medium",
+                faang: true,
+                title: "Q21: Efficient Missing Value Imputation Pipeline",
+                subtitle: "Avoiding data leakage in large-scale Pandas data processing pipelines.",
+                prompt: "How do you impute missing numerical values with median grouped by categorical variables without causing data leakage?",
+                solution: `<p class="mb-4">Using Pandas <code>transform()</code> inside a groupby ensures that median computations are vectorized without flattening the DataFrame dimensions.</p>
+
+                <div class="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-xs overflow-x-auto my-4">
+                    <div class="flex justify-between text-slate-400 text-[10px] mb-2 pb-1 border-b border-slate-800">
+                        <span>Python 3.11 / Pandas 2.0</span>
+                        <button onclick="copyCode(this)" class="hover:text-white"><i class="fa-regular fa-copy"></i> Copy</button>
+                    </div>
+                    <code>
+<span class="code-keyword">import</span> pandas <span class="code-keyword">as</span> pd
+<span class="code-keyword">import</span> numpy <span class="code-keyword">as</span> np
+
+<span class="code-comment"># Sample DataFrame creation</span>
+df = pd.DataFrame({
+    <span class="code-string">'department'</span>: [<span class="code-string">'Sales'</span>, <span class="code-string">'Sales'</span>, <span class="code-string">'Eng'</span>, <span class="code-string">'Eng'</span>, <span class="code-string">'Sales'</span>],
+    <span class="code-string">'salary'</span>: [<span class="code-num">70000</span>, np.nan, <span class="code-num">120000</span>, <span class="code-num">110000</span>, <span class="code-num">80000</span>]
+})
+
+<span class="code-comment"># Groupwise median imputation avoiding leakage</span>
+df[<span class="code-string">'salary_imputed'</span>] = df[<span class="code-string">'salary'</span>].fillna(
+    df.groupby(<span class="code-string">'department'</span>)[<span class="code-string">'salary'</span>].transform(<span class="code-string">'median'</span>)
+)
+
+<span class="code-func">print</span>(df)
+                    </code>
+                </div>`
+            },
+            {
+                id: 5,
+                page: 22,
+                category: "python",
+                categoryTitle: "Module 2: Python & Pandas Wrangling",
+                difficulty: "Hard",
+                faang: false,
+                title: "Q22: Vectorization vs apply() Performance Benchmarking",
+                subtitle: "Why vectorized operations run up to 100x faster than lambda functions.",
+                prompt: "Why should you avoid using `.apply(lambda row: ...)` in Pandas for large datasets? What is the alternative?",
+                solution: `<p class="mb-4"><code>.apply()</code> iterates line-by-line in pure Python overhead mode, bypassing C-optimized NumPy SIMD hardware accelerations.</p>
+
+                <p class="font-semibold text-xs mb-2">Example: Calculating BMI</p>
+                <div class="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-xs overflow-x-auto my-4">
+                    <code>
+<span class="code-comment"># SLOW: Pure Python looping via apply (~2.5 seconds for 1M rows)</span>
+df[<span class="code-string">'bmi'</span>] = df.apply(<span class="code-keyword">lambda</span> r: r[<span class="code-string">'weight'</span>] / (r[<span class="code-string">'height'</span>] ** <span class="code-num">2</span>), axis=<span class="code-num">1</span>)
+
+<span class="code-comment"># FAST: Vectorized NumPy array math (~0.01 seconds for 1M rows)</span>
+df[<span class="code-string">'bmi'</span>] = df[<span class="code-string">'weight'</span>] / (df[<span class="code-string">'height'</span>] ** <span class="code-num">2</span>)
+                    </code>
+                </div>`
+            },
+
+            // MODULE 3: STATISTICS & A/B TESTING
+            {
+                id: 6,
+                page: 41,
+                category: "stats",
+                categoryTitle: "Module 3: Statistics & A/B Testing",
+                difficulty: "Medium",
+                faang: true,
+                title: "Q41: Explaining P-Values to a Non-Technical Stakeholder",
+                subtitle: "Communication excellence for product managers & executives.",
+                prompt: "How do you explain what a p-value is to a non-technical Product Manager?",
+                solution: `<p class="mb-4">Avoid technical jargon like 'probability of observing extreme test statistics under the null hypothesis'. Use the <strong>"Fluke/Surprise" analogy</strong> instead:</p>
+
+                <div class="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs space-y-3">
+                    <p class="font-semibold text-brand-600 dark:text-brand-400 text-sm">The Coin Flip Analogy:</p>
+                    <p>Imagine someone hands you a coin and claims it's fair. They flip it 10 times, and it lands on <strong>Heads every single time</strong>.</p>
+                    <p>What are the odds that a completely fair coin would do that by random chance? Less than 0.1% (p = 0.001).</p>
+                    <p>That 0.1% is your <strong>P-Value</strong>. It measures the likelihood that your result was just a random fluke. Because the p-value is extremely small (p < 0.05), you reject the claim that the coin is fair and conclude the new button feature actually increased conversions!</p>
+                </div>`
+            },
+            {
+                id: 7,
+                page: 42,
+                category: "stats",
+                categoryTitle: "Module 3: Statistics & A/B Testing",
+                difficulty: "Hard",
+                faang: true,
+                title: "Q42: Detecting Simpson's Paradox in Metrics",
+                subtitle: "When aggregate trends completely invert inside subgroups.",
+                prompt: "What is Simpson's Paradox? Provide a real-world tech scenario where it causes misleading conclusions.",
+                solution: `<p class="mb-4"><strong>Simpson's Paradox</strong> occurs when a clear trend appears in individual groups of data, but reverses or vanishes when those groups are combined.</p>
+
+                <div class="my-4">
+                    <canvas id="simpsonsChart" class="w-full max-h-60 bg-white dark:bg-slate-900 p-2 rounded-xl border border-slate-200 dark:border-slate-800"></canvas>
+                </div>
+
+                <p class="text-xs leading-relaxed"><strong>Classic Example:</strong> Variant B has higher conversion rates for Mobile users (15% vs 10%) AND higher for Desktop users (30% vs 25%). However, overall Variant A wins because 90% of Variant A traffic came from high-converting Desktop users!</p>`
+            },
+
+            // MODULE 4: PRODUCT & BUSINESS METRICS
+            {
+                id: 8,
+                page: 61,
+                category: "biz",
+                categoryTitle: "Module 4: Product Analytics & Metrics",
+                difficulty: "Hard",
+                faang: true,
+                title: "Q61: Diagnosing an 8% Drop in Uber Ride Completions",
+                subtitle: "Root cause analysis framework for metric drops.",
+                prompt: "Uber ride completions dropped 8% week-over-week in NYC. How do you structure your root cause investigation?",
+                solution: `<p class="mb-4">Always approach RCA (Root Cause Analysis) using a systematic top-down MECE framework (Mutually Exclusive, Collectively Exhaustive):</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs my-4">
+                    <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <span class="font-bold text-brand-600 block mb-1">1. Data Integrity & External</span>
+                        <ul class="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
+                            <li>Is telemetry broken? (Logging bugs)</li>
+                            <li>Holidays / Severe Weather in NYC?</li>
+                            <li>Competitor promo campaign (Lyft)?</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <span class="font-bold text-brand-600 block mb-1">2. Funnel Segmentation</span>
+                        <ul class="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
+                            <li>App Opens → Ride Searches → Bookings → Match → Completion. Where is the drop?</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <span class="font-bold text-brand-600 block mb-1">3. Supply vs Demand</span>
+                        <ul class="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
+                            <li>Supply: Active driver count down? High ETA cancellations?</li>
+                            <li>Demand: Rider surge pricing friction?</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <span class="font-bold text-brand-600 block mb-1">4. Technical / App Releases</span>
+                        <ul class="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
+                            <li>iOS/Android new app build crash rates?</li>
+                            <li>Payment gateway latency errors?</li>
+                        </ul>
+                    </div>
+                </div>`
+            }
+        ];
+
+        // Generate synthetic filler pages to scale to full 100 pages seamlessly
+        for(let i = 9; i <= 100; i++) {
+            const categories = ['sql', 'python', 'stats', 'biz'];
+            const cat = categories[i % categories.length];
+            const catTitles = {
+                sql: "Module 1: SQL Mastery",
+                python: "Module 2: Python & Pandas Wrangling",
+                stats: "Module 3: Statistics & A/B Testing",
+                biz: "Module 4: Product Analytics & Metrics"
+            };
+
+            eBookQuestions.push({
+                id: i,
+                page: i,
+                category: cat,
+                categoryTitle: catTitles[cat],
+                difficulty: i % 3 === 0 ? "Hard" : (i % 2 === 0 ? "Medium" : "Easy"),
+                faang: i % 2 === 0,
+                title: `Q${i}: Comprehensive Master Interview Scenario ${i}`,
+                subtitle: `In-depth breakdown of practical analytical trade-offs (Page ${i} of 100).`,
+                prompt: `Analyze the following scenario regarding query optimization, metric definition, or statistical confidence for Question #${i}.`,
+                solution: `<p class="mb-3">Detailed problem analysis for question ${i}. When evaluating complex data analyst technical scenarios, always structure your answer into three phases:</p>
+                <ol class="list-decimal pl-5 space-y-2 text-xs mb-4">
+                    <li><strong>Clarify Constraints:</strong> Define data scale, target schemas, and business assumptions.</li>
+                    <li><strong>Formulate Solution:</strong> Provide clean, scalable SQL/Python code or statistical formulas.</li>
+                    <li><strong>Evaluate Trade-offs:</strong> Discuss execution time complexity (O(N) vs O(N log N)) or sample bias.</li>
+                </ol>
+                <div class="bg-slate-900 text-slate-100 p-3 rounded-lg font-mono text-xs my-3">
+                    <code>-- Optimization pattern for Page ${i}\nSELECT category, AVG(metric) FROM master_dataset GROUP BY 1 HAVING COUNT(*) > 100;</code>
+                </div>`
+            });
+        }
+
+        // STATE MANAGEMENT
+        let currentPage = 1;
+        const totalPages = 100;
+        let fontMode = 'sans'; // 'sans' or 'serif'
+        let fontSizePercent = 100;
+        let isQuizMode = false;
+        let savedBookmarks = JSON.parse(localStorage.getItem('ebook_bookmarks') || '[]');
+
+        // DOM ELEMENTS
+        const bookPage = document.getElementById('book-page');
+        const pageTitle = document.getElementById('page-title');
+        const pageSubtitle = document.getElementById('page-subtitle');
+        const pageModuleBadge = document.getElementById('page-module-badge');
+        const pageDifficultyBadge = document.getElementById('page-difficulty-badge');
+        const pageFaangTag = document.getElementById('page-faang-tag');
+        const pageContentBody = document.getElementById('page-content-body');
+        const currentPageNum = document.getElementById('current-page-num');
+        const totalPagesNum = document.getElementById('total-pages-num');
+        const footerPageNum = document.getElementById('footer-page-num');
+        const pageRangeSlider = document.getElementById('page-range-slider');
+        const tocList = document.getElementById('toc-list');
+        const bookmarkBtn = document.getElementById('bookmark-current-page');
+        const bookmarkBadge = document.getElementById('bookmark-badge');
+
+        // INITIALIZATION
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTOC('all');
+            loadPage(1);
+            updateBookmarkBadge();
+            setupEventListeners();
+        });
+
+        // RENDER PAGE FUNCTION
+        function loadPage(pageNum) {
+            if (pageNum < 1 || pageNum > totalPages) return;
+            currentPage = pageNum;
+
+            const q = eBookQuestions.find(item => item.page === currentPage) || eBookQuestions[0];
+
+            // Update Header Meta
+            pageModuleBadge.textContent = q.categoryTitle;
+            pageDifficultyBadge.textContent = q.difficulty;
+            if(q.difficulty === 'Hard') {
+                pageDifficultyBadge.className = "px-2 py-0.5 bg-rose-50 dark:bg-rose-950 text-rose-600 dark:text-rose-400 text-[10px] font-medium rounded";
+            } else {
+                pageDifficultyBadge.className = "px-2 py-0.5 bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 text-[10px] font-medium rounded";
+            }
+
+            if (q.faang) {
+                pageFaangTag.classList.remove('hidden');
+            } else {
+                pageFaangTag.classList.add('hidden');
+            }
+
+            // Update Title & Subtitle
+            pageTitle.textContent = q.title;
+            pageSubtitle.textContent = q.subtitle;
+
+            // Render Body Content (Quiz Mode vs Normal Reader)
+            if (isQuizMode) {
+                pageContentBody.innerHTML = `
+                    <div class="p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl mb-4">
+                        <p class="font-semibold text-xs text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-1"><i class="fa-solid fa-circle-question mr-1"></i> Interview Prompt:</p>
+                        <p class="text-sm font-medium text-slate-800 dark:text-slate-100">${q.prompt}</p>
+                    </div>
+                    <div class="mt-6">
+                        <button id="reveal-answer-btn" onclick="toggleAnswerReveal()" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold rounded-xl shadow-md transition">
+                            <i class="fa-solid fa-eye mr-2"></i> Reveal Solution & Explanation
+                        </button>
+                        <div id="revealed-solution" class="hidden mt-6 space-y-4 pt-6 border-t border-slate-200 dark:border-slate-800">
+                            ${q.solution}
+                        </div>
+                    </div>
+                `;
+            } else {
+                pageContentBody.innerHTML = `
+                    <div class="p-4 bg-slate-100 dark:bg-slate-800/80 rounded-xl text-xs leading-relaxed mb-4 border border-slate-200 dark:border-slate-700">
+                        <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Question Prompt:</span>
+                        ${q.prompt}
+                    </div>
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-sm text-slate-900 dark:text-slate-100 border-b border-slate-200 dark:border-slate-800 pb-1">Detailed Solution:</h3>
+                        ${q.solution}
+                    </div>
+                `;
+            }
+
+            // Render Simpson's Chart if Page 42
+            if (q.page === 42) {
+                setTimeout(renderSimpsonsChart, 100);
+            }
+
+            // Update Pagination UI
+            currentPageNum.textContent = currentPage;
+            footerPageNum.textContent = currentPage;
+            pageRangeSlider.value = currentPage;
+
+            // Update Active TOC state
+            document.querySelectorAll('.toc-item').forEach(el => {
+                if (parseInt(el.dataset.page) === currentPage) {
+                    el.classList.add('bg-brand-50', 'dark:bg-brand-950/60', 'text-brand-600', 'dark:text-brand-400', 'font-semibold', 'border-l-4', 'border-brand-600');
+                } else {
+                    el.classList.remove('bg-brand-50', 'dark:bg-brand-950/60', 'text-brand-600', 'dark:text-brand-400', 'font-semibold', 'border-l-4', 'border-brand-600');
+                }
+            });
+
+            // Update Bookmark State Icon
+            if (savedBookmarks.includes(currentPage)) {
+                bookmarkBtn.innerHTML = `<i class="fa-solid fa-bookmark text-amber-500"></i>`;
+            } else {
+                bookmarkBtn.innerHTML = `<i class="fa-regular fa-bookmark"></i>`;
+            }
+
+            // Update Progress Bar & Completion %
+            const progress = Math.round((currentPage / totalPages) * 100);
+            document.getElementById('reading-progress-bar').style.width = `${progress}%`;
+            document.getElementById('completion-stats').textContent = `${progress}% Read`;
+
+            // Scroll reader back to top
+            document.getElementById('reader-scroll-container').scrollTop = 0;
+        }
+
+        // TOGGLE QUIZ ANSWER REVEAL
+        function toggleAnswerReveal() {
+            const sol = document.getElementById('revealed-solution');
+            const btn = document.getElementById('reveal-answer-btn');
+            if (sol.classList.contains('hidden')) {
+                sol.classList.remove('hidden');
+                btn.textContent = 'Hide Solution';
+                btn.classList.replace('bg-brand-600', 'bg-slate-700');
+            } else {
+                sol.classList.add('hidden');
+                btn.innerHTML = `<i class="fa-solid fa-eye mr-2"></i> Reveal Solution & Explanation`;
+                btn.classList.replace('bg-slate-700', 'bg-brand-600');
+            }
+        }
+
+        // RENDER TOC FUNCTION
+        function renderTOC(filter) {
+            tocList.innerHTML = '';
+            eBookQuestions.forEach(q => {
+                if (filter !== 'all' && q.category !== filter) return;
+
+                const tocItem = document.createElement('button');
+                tocItem.dataset.page = q.page;
+                tocItem.className = `toc-item w-full text-left px-3 py-2 rounded-lg text-xs flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 transition ${q.page === currentPage ? 'bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 font-semibold border-l-4 border-brand-600' : 'text-slate-600 dark:text-slate-400'}`;
+                
+                tocItem.innerHTML = `
+                    <div class="flex items-center space-x-2 truncate pr-2">
+                        <span class="font-mono text-[10px] opacity-60 w-5">P${q.page}</span>
+                        <span class="truncate">${q.title}</span>
+                    </div>
+                    ${q.faang ? '<i class="fa-solid fa-fire text-amber-500 text-[10px]"></i>' : ''}
+                `;
+
+                tocItem.addEventListener('click', () => {
+                    loadPage(q.page);
+                    // Close sidebar on mobile
+                    if (window.innerWidth < 768) {
+                        document.getElementById('sidebar').classList.add('-translate-x-full');
+                    }
+                });
+
+                tocList.appendChild(tocItem);
+            });
+        }
+
+        // EVENT LISTENERS SETUP
+        function setupEventListeners() {
+            // Page Controls
+            document.getElementById('prev-page-btn').addEventListener('click', () => loadPage(currentPage - 1));
+            document.getElementById('next-page-btn').addEventListener('click', () => loadPage(currentPage + 1));
+            document.getElementById('quick-prev-btn').addEventListener('click', () => loadPage(currentPage - 1));
+            document.getElementById('quick-next-btn').addEventListener('click', () => loadPage(currentPage + 1));
+
+            pageRangeSlider.addEventListener('input', (e) => loadPage(parseInt(e.target.value)));
+
+            // Sidebar Toggle
+            document.getElementById('toggle-sidebar-btn').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            });
+
+            // Filter TOC Category
+            document.querySelectorAll('.toc-filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.toc-filter-btn').forEach(b => {
+                        b.classList.remove('bg-white', 'dark:bg-slate-800', 'text-brand-600', 'dark:text-brand-400', 'shadow-sm');
+                        b.classList.add('text-slate-600', 'dark:text-slate-400');
+                    });
+                    btn.classList.add('bg-white', 'dark:bg-slate-800', 'text-brand-600', 'dark:text-brand-400', 'shadow-sm');
+                    renderTOC(btn.dataset.filter);
+                });
+            });
+
+            // Theme Toggle
+            document.getElementById('toggle-theme-btn').addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+            });
+
+            // Fonts & Sizing
+            document.getElementById('font-sans-btn').addEventListener('click', () => {
+                bookPage.classList.remove('font-mode-serif');
+                bookPage.classList.add('font-mode-sans');
+            });
+            document.getElementById('font-serif-btn').addEventListener('click', () => {
+                bookPage.classList.remove('font-mode-sans');
+                bookPage.classList.add('font-mode-serif');
+            });
+
+            document.getElementById('increase-font-btn').addEventListener('click', () => {
+                if (fontSizePercent < 130) {
+                    fontSizePercent += 10;
+                    bookPage.style.fontSize = `${fontSizePercent}%`;
+                    document.getElementById('font-size-label').textContent = `${fontSizePercent}%`;
+                }
+            });
+            document.getElementById('decrease-font-btn').addEventListener('click', () => {
+                if (fontSizePercent > 80) {
+                    fontSizePercent -= 10;
+                    bookPage.style.fontSize = `${fontSizePercent}%`;
+                    document.getElementById('font-size-label').textContent = `${fontSizePercent}%`;
+                }
+            });
+
+            // Quiz Mode Toggle
+            document.getElementById('toggle-quiz-btn').addEventListener('click', () => {
+                isQuizMode = !isQuizMode;
+                const btn = document.getElementById('toggle-quiz-btn');
+                if (isQuizMode) {
+                    btn.classList.add('bg-brand-500', 'text-white');
+                    showToast("Flashcard / Quiz Mode Enabled!");
+                } else {
+                    btn.classList.remove('bg-brand-500', 'text-white');
+                    showToast("Standard Reading Mode Enabled");
+                }
+                loadPage(currentPage);
+            });
+
+            // Bookmarks
+            bookmarkBtn.addEventListener('click', () => {
+                if (savedBookmarks.includes(currentPage)) {
+                    savedBookmarks = savedBookmarks.filter(p => p !== currentPage);
+                    showToast("Bookmark removed");
+                } else {
+                    savedBookmarks.push(currentPage);
+                    showToast("Page bookmarked!");
+                }
+                localStorage.setItem('ebook_bookmarks', JSON.stringify(savedBookmarks));
+                updateBookmarkBadge();
+                loadPage(currentPage);
+            });
+
+            document.getElementById('toggle-bookmarks-btn').addEventListener('click', () => {
+                const modal = document.getElementById('bookmarks-modal');
+                modal.classList.toggle('hidden');
+                renderBookmarksList();
+            });
+
+            document.getElementById('close-bookmarks-btn').addEventListener('click', () => {
+                document.getElementById('bookmarks-modal').classList.add('hidden');
+            });
+
+            // Search Trigger
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                if (!query) {
+                    renderTOC('all');
+                    return;
+                }
+                tocList.innerHTML = '';
+                const matches = eBookQuestions.filter(q => 
+                    q.title.toLowerCase().includes(query) || 
+                    q.prompt.toLowerCase().includes(query) ||
+                    q.categoryTitle.toLowerCase().includes(query)
+                );
+
+                matches.forEach(q => {
+                    const tocItem = document.createElement('button');
+                    tocItem.className = "w-full text-left px-3 py-2 rounded-lg text-xs hover:bg-slate-100 dark:hover:bg-slate-800 border-b border-slate-100 dark:border-slate-800";
+                    tocItem.innerHTML = `<span class="font-mono text-brand-500 text-[10px]">Pg ${q.page}:</span> ${q.title}`;
+                    tocItem.addEventListener('click', () => loadPage(q.page));
+                    tocList.appendChild(tocItem);
+                });
+            });
+
+            // Keybindings (Left/Right arrow)
+            document.addEventListener('keydown', (e) => {
+                if (e.target.tagName === 'INPUT') return;
+                if (e.key === 'ArrowLeft') loadPage(currentPage - 1);
+                if (e.key === 'ArrowRight') loadPage(currentPage + 1);
+            });
+        }
+
+        // UPDATE BOOKMARK BADGE
+        function updateBookmarkBadge() {
+            if (savedBookmarks.length > 0) {
+                bookmarkBadge.textContent = savedBookmarks.length;
+                bookmarkBadge.classList.remove('hidden');
+            } else {
+                bookmarkBadge.classList.add('hidden');
+            }
+        }
+
+        // RENDER BOOKMARKS LIST MODAL
+        function renderBookmarksList() {
+            const list = document.getElementById('bookmarks-list');
+            list.innerHTML = '';
+            if (savedBookmarks.length === 0) {
+                list.innerHTML = `<p class="text-xs text-slate-400 italic text-center py-8">No saved pages yet.</p>`;
+                return;
+            }
+            savedBookmarks.forEach(pNum => {
+                const q = eBookQuestions.find(item => item.page === pNum);
+                if (!q) return;
+                const item = document.createElement('div');
+                item.className = "p-3 bg-slate-50 dark:bg-slate-800 rounded-xl text-xs flex justify-between items-center cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700";
+                item.innerHTML = `
+                    <div>
+                        <span class="font-mono font-bold text-brand-600 dark:text-brand-400">Pg ${q.page}</span>
+                        <p class="font-medium text-slate-800 dark:text-slate-200 line-clamp-1">${q.title}</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-400 text-[10px]"></i>
+                `;
+                item.addEventListener('click', () => {
+                    loadPage(q.page);
+                    document.getElementById('bookmarks-modal').classList.add('hidden');
+                });
+                list.appendChild(item);
+            });
+        }
+
+        // TOAST FUNCTION
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        // COPY CODE FUNCTION
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling;
+            navigator.clipboard.writeText(codeBlock.innerText);
+            showToast("Code copied to clipboard!");
+        }
+
+        // SIMPSON'S PARADOX CHART RENDERER
+        function renderSimpsonsChart() {
+            const ctx = document.getElementById('simpsonsChart');
+            if(!ctx) return;
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mobile Users', 'Desktop Users', 'Overall Combined'],
+                    datasets: [
+                        {
+                            label: 'Variant A Conversion %',
+                            data: [10, 25, 23.5],
+                            backgroundColor: 'rgba(148, 163, 184, 0.8)'
+                        },
+                        {
+                            label: 'Variant B Conversion % (Winner in subgroups)',
+                            data: [15, 30, 18.2],
+                            backgroundColor: 'rgba(2, 132, 199, 0.9)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: "Simpson's Paradox: Aggregate vs Subgroup Conversion", font: { size: 11 } },
+                        legend: { labels: { boxWidth: 10, font: { size: 10 } } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { callback: v => v + '%' } }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
